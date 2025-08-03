@@ -1,0 +1,69 @@
+proxy_params: &proxy_params
+  proxy_model_name: <PROXY_MODEL_NAME>
+  url: <PROXY_URL>
+  max_retries: 5
+  base_delay: 30
+  env_proxy_access_token_name: ACCESS_TOKEN
+  
+exp_template: &exp_template
+  n_iterations: 4 # кол-во циклов обновления промптов для генерации промптов 
+  n_train_sample: 4 # сколько текстов в промпте для генерации промптов
+  resample_each_n: 2 # обновлять примеры из train каждые n итераций 
+  random_seed: 42
+
+  dataset_path: "<FILEPATH_1>" 
+  results_folder_name: results
+  
+  models:
+    prompt_gen_model: # модель для генерации промптов
+      use_proxy: false
+      max_user_prompt_len: 2048 # ограничение на промпт пользователя
+      batch_size: 4
+      enable_thinking: true
+      model_parameters:
+        model: Qwen/Qwen3-32B
+        max_model_len: 4096
+        gpu_memory_utilization: 0.9
+      system_msg: null
+      sampling_params:
+          temperature: 0
+          max_tokens: 4096
+
+    metric_calc_model: # модель для оценки промптов
+      use_proxy: false
+      max_user_prompt_len: 2048
+      batch_size: 4
+      enable_thinking: true
+      model_parameters:
+        model: Qwen/Qwen3-32B
+        max_model_len: 4096
+        gpu_memory_utilization: 0.9
+      system_msg: null
+      sampling_params:
+        temperature: 0
+        max_tokens: 2048
+
+    eval_model: # модель для NER
+      use_proxy: true
+      batch_size: 4
+      enable_thinking: false
+      proxy:
+        <<: *proxy_params
+        model: <PROXY_MODEL_NAME>
+      model_parameters:
+        model: t-tech/T-pro-it-1.0
+      system_msg: null
+      sampling_params:
+        temperature: 0
+        max_tokens: 2048
+
+  doc_names:
+    - "дата"
+    - "фамилия"
+    - "дата рождения"
+
+
+experiments:
+ test_1:
+    <<: *exp_template
+    dataset_path: "./dataset.json" 
