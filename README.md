@@ -20,13 +20,13 @@ AutomaticPromptEngineer — это инструмент для автомати�
 
 Эксперимент включает в себя:
 
-* Модели (configs/experiments/config.yml):
+* Модели ([config.yml](https://github.com/Dmitry-lab0/AutomaticPromptEngineer/blob/main/configs/experiments/config.yml)):
 
   * prompt_gen_model: LLM для генерации описаний сущностей
   * metric_calc_model: LLM для сравнения предсказаний и ground truth
   * ner_model: LLM для извлечения сущностей по промптам
 
-* Промпты (configs/prompts_templates/prompts.yml):
+* Промпты ([prompts.yml](https://github.com/Dmitry-lab0/AutomaticPromptEngineer/blob/main/configs/prompts_templates/prompts.yml)):
 
   * для генерации описаний на 1-й итерации
   * для доработки описаний
