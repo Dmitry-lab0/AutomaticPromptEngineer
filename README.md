@@ -1,2 +1,66 @@
-# AutomaticPromptEngineer
-The project is designed for automatic generation of prompts for LLM to search for entities in documents. Only text and markup are needed for generation.
+# Junior ML Contest 2025
+
+## AutomaticPromptEngineer
+
+AutomaticPromptEngineer — это инструмент для автоматической генерации промптов к LLM, используемых в задаче извлечения сущностей (NER) из многостраничных документов.
+
+---
+
+## Описание проекта
+
+Извлечение сущностей из документов — важная задача для автоматизации документооборота. Современные LLM позволяют решать её в few-shot режиме, снижая потребность в больших размеченных выборках и ускоряя внедрение (TTM).
+
+Однако эффективность few-shot подхода во многом зависит от качества промптов, а их подбор — ручной и трудозатратный процесс.
+
+Цель проекта — автоматизировать генерацию описаний сущностей, которые затем используются для формирования качественных промптов к LLM в задачах NER.
+
+---
+
+## Структура эксперимента
+
+Эксперимент включает в себя:
+
+* Модели (configs/experiments/config.yml):
+
+  * prompt_gen_model: LLM для генерации описаний сущностей
+  * metric_calc_model: LLM для сравнения предсказаний и ground truth
+  * ner_model: LLM для извлечения сущностей по промптам
+
+* Промпты (configs/prompts_templates/prompts.yml):
+
+  * для генерации описаний на 1-й итерации
+  * для доработки описаний
+  * для сравнения предсказаний и разметки
+  * для финального NER
+
+* Датасет (JSON-формат):
+```bash
+{
+  "train": [
+    {
+      "barcode": "0",
+      "text": "example",
+      "gt": {
+        "field_name": "field_value"
+      }
+    }
+  ],
+  "val": [...],
+  "test": [...]
+}
+```
+---
+
+## Запуск эксперимента
+```bash
+python main.py \
+  --cfg_path ./configs/experiments/config.yml \
+  --prompts_cfg_path ./configs/prompts_templates/prompts.yml \
+  --exp_name test_1
+```
+---
+
+##  Пример сгенерированного описания сущности
+``` text
+дата документа | Дата создания или подписания документа. Указывается часто после названия документа или перед основным текстом. Примеры: 01.01.2001, 02.02.2002. Формат: DD.MM.YYYY
+```
