@@ -1,5 +1,3 @@
-# Junior ML Contest 2025
-
 ## AutomaticPromptEngineer
 
 AutomaticPromptEngineer — это инструмент для автоматической генерации промптов к LLM, используемых в задаче извлечения сущностей (NER) из многостраничных документов.
